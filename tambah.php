@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,50 +11,47 @@
 
     <title>data barang</title>
   </head>
-  <body class="jumbotron">
-    <div>
-        <p><a class="btn btn-primary btn-lg" href="tambah.php" role="button">tambah produk</a> </p>
+  <body class="container">
+    <div class="jumbotron">
+        <p><a class="btn btn-primary btn-lg" href="index.php" role="button">home</a> </p>
        
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                <th scope="col">nama produk</th>
-                <th scope="col">keterangan</th>
-                <th scope="col">harga</th>
-                <th scope="col">jumlah</th>
-                <th scope="col">aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php 
-            //koneksi
-            include "koneksi.php";
-            //baca data mysqli
-            $ambildata = mysqli_query($koneksi, "SELECT * FROM produk");
-            while ($tampil = mysqli_fetch_array($ambildata)){
-                echo "
-                <tr>
-                <td>$tampil[nama_produk]</td>
-                <td>$tampil[keterangan]</td>
-                <td>$tampil[harga]</td>
-                <td>$tampil[jumlah]</td>
-                <td>  
-                      <a href='apus.php?id=$tampil[id]'> hapus </a> | 
-                      <a href='edit.php?id=$tampil[id]'> edit </a> 
-                </td>
-              
-                </tr> ";               
-            }
-            ?>        
-            </tbody>
-        </table>
+        <form action="" method="post">
+            <div class="form-group">
+                <label>Nama Produk</label>
+                <input type="text" class="form-control"  name="nama_produk" placeholder="masukkan Nama Produk">
+            </div>
+            <div class="form-group">
+                <label>Keterangan</label>
+                <input type="text" class="form-control"  name="keterangan" placeholder="masukkan Keterangan">
+            </div>
+            <div class="form-group">
+                <label>Harga</label>
+                <input type="text" class="form-control"  name="harga" placeholder="masukkan Harga">
+            </div>
+            <div class="form-group">
+                <label>Jumlah</label>
+                <input type="text" class="form-control" name="jumlah" placeholder="masukkan Jumlah">
+            </div>
+            <input type="submit" class="btn btn-primary" value="simpan" name="proses">
+        </form>
     </div>
-    
-   
-   
-
-  
-
+    <?php 
+    //koneksi
+    include("koneksi.php");
+    //tambah produk
+    if(isset($_POST['proses']) ) {
+        //buat variable baru
+        $nama_produk = $_POST["nama_produk"];
+        $keterangan = $_POST["keterangan"];
+        $harga = $_POST["harga"];
+        $jumlah = $_POST["jumlah"];
+        //var query sql dengan var baru
+        $query = "insert into produk values('','$nama_produk','$keterangan','$harga','$jumlah')";
+        //query mysql
+        mysqli_query($koneksi, $query);         
+        header("Location:index.php");
+    }
+    ?>   
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->

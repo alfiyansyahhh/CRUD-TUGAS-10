@@ -1,86 +1,81 @@
-<?php
+<?php 
+//nampilin data yang mau di edit
 include("koneksi.php");
+$data=mysqli_query($koneksi,"select * from produk where id='$_GET[id]'");
+$tmpl=mysqli_fetch_array($data);
 
-if(isset($_POST['update']))
-{   
-    $id_produk = $_POST['id_produk'];
-
-    $nama_produk=$_POST['nama_produk'];
-    $keterangan=$_POST['keterangan'];
-    $harga=$_POST['harga'];
-    $jumlah=$_POST['jumlah'];
-
-    $result = mysqli_query($mysqli, "UPDATE produk SET id_produk='$id_produk',nama_produk='$nama_produk',keterangan='$keterangan',harga='$harga',jumlah='$jumlah' WHERE id_produk=$id_produk");
-
-    header("Location: index.php");
-}
 ?>
-<?php
-
-$id_produk = $_GET['id_produk'];
-
-$result = mysqli_query($mysqli, "SELECT * FROM produk ");
-
-while($user_data = mysqli_fetch_array($result))
-{
-    $id_produk = $user_data['id_produk'];
-    $nama_produk = $user_data['nama_produk'];
-    $keterangan = $user_data['keterangan'];
-    $harga = $user_data['harga'];
-    $jumlah = $user_data['jumlah'];
-}
-?>
-<html>
-<head>  
+<!doctype html>
+<html lang="en">
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
-    <title>Edit data produk</title>
-</head>
+    <title>data barang</title>
+  </head>
+  <body class="container">
+    <div class="jumbotron">
+        <p><a class="btn btn-primary btn-lg" href="index.php" role="button">home</a> </p>
+       
+        <form action="" method="post">
+            
+            <input type="hidden"  name="id" value="<?= $tmpl['id']; ?>">
 
-<body class="jumbotron" >
-    <div class="container" align="center" >
-        <h1 class="lead" lign="center">
-             <a class="btn btn-primary btn-lg" href="index.php" role="button">home</a>
-        </h1>
-     </div>  
+            <div class="form-group">
+                <label>Nama Produk</label>
+                <input type="text" class="form-control"  name="nama_produk" value="<?= $tmpl['nama_produk']; ?>">
+            </div>
+            <div class="form-group">
+                <label>Keterangan</label>
+                <input type="text" class="form-control"  name="keterangan" value="<?= $tmpl['keterangan']; ?>">
+            </div>
+            <div class="form-group">
+                <label>Harga</label>
+                <input type="text" class="form-control"  name="harga" value="<?= $tmpl['harga']; ?>">
+            </div>
+            <div class="form-group">
+                <label>Jumlah</label>
+                <input type="text" class="form-control" name="jumlah" value=<?= $tmpl['jumlah']; ?>>
+            </div>
+            <input type="submit" class="btn btn-primary" value="ubah" name="proses">
+        </form>
+    </div>
+    <?php 
+    //kirim data yang udah di edit
+    include("koneksi.php");
+    if(isset($_POST['proses']) ) {
+        $id = $_POST["id"];
+        $nama_produk = $_POST["nama_produk"];
+        $keterangan = $_POST["keterangan"];
+        $harga = $_POST["harga"];
+        $jumlah = $_POST["jumlah"];
 
-    <form name="update_user" method="post" action="edit.php" >
-        <table border="0"  align="center" >
-            <tr> 
-                <td>id produk</td>
-                <td><input type="text" name="id_produk" value=<?php echo $id_produk;?>></td>
-            </tr>
-            <tr> 
-                <td>nama produk</td>
-                <td><input type="text" name="nama_produk" value=<?php echo $nama_produk;?>></td>
-            </tr>
-            <tr> 
-                <td>keterangan</td>
-                <td><input type="text" name="keterangan" value=<?php echo $keterangan;?>></td>
-            </tr>
-            <tr> 
-                <td>harga</td>
-                <td><input type="text" name="harga" value=<?php echo $harga;?>></td>
-            </tr>
-            <tr> 
-                <td>jumlah</td>
-                <td><input type="text" name="jumlah" value=<?php echo $jumlah;?>></td>
-            </tr>
-            <tr>
-                <td><input type="hidden" name="id_produk" value=<?php echo $_GET['id_produk'];?>></td>
-                <td><input type="submit" name="update" value="Update"></td>
-            </tr>
-        </table>
-    </form>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
+        $query = "update produk set 
+                    nama_produk ='$nama_produk',
+                    keterangan ='$keterangan',
+                    harga ='$harga',
+                    jumlah ='$jumlah' 
+                  where id='$_GET[id]'";
+        mysqli_query($koneksi, $query);
+               
+        header("Location:index.php");
+    }
+    ?>  
+  
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+    <!-- Option 2: jQuery, Popper.js, and Bootstrap JS
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    -->
+  </body>
 </html>
